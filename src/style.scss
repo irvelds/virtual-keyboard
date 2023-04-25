@@ -1,3 +1,105 @@
-html {
-    background: rgb(247, 247, 247);
+.keyboard {
+    width: 994px;
+    border: 3px solid #ffffff;
+    background-color: #2d3542;
+    margin: 100px auto;
+}
+
+.keyboard-keys {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.key {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #595e64;
+    background-color: #343c48;
+    margin: 3px;
+    padding: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7607843137);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+
+    &:hover {
+        color: white;
+        border-image: linear-gradient(to left top, red 10%, lightskyblue 50%, greenyellow 70%, yellow 30%);
+        border-image-slice: 1;
+        filter: drop-shadow(5px 5px 50px #97d0ff);
+        animation: animate-hover 0.6s alternate infinite;
+    }
+
+    &:active {
+        animation: animate-click 0.6s ease-out forwards;
+    }
+
+    &[data-code="Backspace"] {
+        width: 145px;
+    }
+
+    &[data-code="ShiftRight"],
+    &[data-code="ShiftLeft"],
+    &[data-code="CapsLock"],
+    &[data-code="Enter"] {
+        width: 130px;
+    }
+
+    &[data-code="Space"] {
+        width: 434px;
+    }
+
+    &[data-code="ControlRight"],
+    &[data-code="ControlLeft"] {
+        width: 66px;
+    }
+
+    &[data-code="Tab"],
+    &[data-code="Delete"] {
+        width: 66px;
+    }
+}
+
+.key-sub::before {
+    content: attr(data-shift);
+    position: absolute;
+    font-size: 14px;
+    top: 2px;
+    left: 5px;
+}
+
+
+@keyframes animate-click {
+    0% {
+        background-color: rgb(0, 162, 255);
+        transform: scale(0.1);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+
+    100% {
+        background-color: rgb(0, 162, 255);
+
+    }
+}
+
+@keyframes animate-hover {
+    100% {
+        filter: drop-shadow(5px 5px 50px #97d0ff);
+    }
+}
+
+.key.active {
+    box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.7);
+    background-color: rgb(0, 162, 255);
+    color: white;
 }
