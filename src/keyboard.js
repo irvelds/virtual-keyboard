@@ -94,7 +94,6 @@ export default class VirtualKeyboard {
 
     document.addEventListener('keydown', (e) => {
       e.preventDefault();
-      console.log(this.shift, this.capsLock);
       const key = document.querySelector(`.key[data-code = "${e.code}"]`);
       const monitor = document.querySelector('.monitor');
       monitor.focus();
@@ -122,7 +121,6 @@ export default class VirtualKeyboard {
         monitor.value += '';
       } else if (['AltLeft', 'ControlRight', 'AltRight', 'ControlLeft', 'MetaLeft'].includes(e.code)) {
         monitor.value += '';
-        // return
       } else if (e.code === 'Tab') {
         this.pressTab();
       } else if (e.code === 'Enter') {
@@ -134,13 +132,13 @@ export default class VirtualKeyboard {
       } else if (e.code === 'Delete') {
         this.pressDel();
       } else if (e.code === 'ArrowUp') {
-        this.arrowUp();
+        VirtualKeyboard.arrowUp();
       } else if (e.code === 'ArrowDown') {
-        this.arrowDown();
+        VirtualKeyboard.arrowDown();
       } else if (e.code === 'ArrowLeft') {
-        this.arrowLeft();
+        VirtualKeyboard.arrowLeft();
       } else if (e.code === 'ArrowRight') {
-        this.arrowRight();
+        VirtualKeyboard.arrowRight();
       } else if (e.shiftKey && key.firstChild.getAttribute('data-shift')) {
         this.insertChars(key.firstChild.getAttribute('data-shift'));
       } else this.insertChars(key.firstChild.textContent);
@@ -156,11 +154,9 @@ export default class VirtualKeyboard {
         e.preventDefault();
         monitor.focus();
         const key = e.target.closest('.key').getAttribute('data-code');
-        console.log(e.target);
         const dataShift = e.target.closest('.key').firstChild.getAttribute('data-shift');
         if (['AltLeft', 'ControlRight', 'AltRight', 'ControlLeft', 'MetaLeft'].includes(key)) {
           monitor.value += '';
-          // return
         } else if (key === 'CapsLock') {
           this.capsLock = !this.capsLock;
           e.target.closest('.key').classList[this.capsLock ? 'add' : 'remove']('active');
@@ -178,21 +174,18 @@ export default class VirtualKeyboard {
         } else if (key === 'Delete') {
           this.pressDel();
         } else if (key === 'ArrowUp') {
-          this.arrowUp();
+          VirtualKeyboard.arrowUp();
         } else if (key === 'ArrowDown') {
-          this.arrowDown();
+          VirtualKeyboard.arrowDown();
         } else if (key === 'ArrowLeft') {
-          this.arrowLeft();
+          VirtualKeyboard.arrowLeft();
         } else if (key === 'ArrowRight') {
-          this.arrowRight();
+          VirtualKeyboard.arrowRight();
         } else if ((key === 'ShiftLeft' || key === 'ShiftRight')) {
           monitor.value += '';
         } else if (this.shift && dataShift) {
           this.insertChars(dataShift);
         } else this.insertChars(e.target.closest('.key').firstChild.textContent);
-        // else if (this.shift && this.capsLock && dataShift){
-        //   this.insertChars(monitor, dataShift);
-        // }
       });
     });
   }
@@ -245,19 +238,19 @@ export default class VirtualKeyboard {
     }
   }
 
-  arrowUp() {
+  static arrowUp() {
     window.getSelection().modify('move', 'left', 'line');
   }
 
-  arrowDown() {
+  static arrowDown() {
     window.getSelection().modify('move', 'right', 'line');
   }
 
-  arrowLeft() {
+  static arrowLeft() {
     window.getSelection().modify('move', 'left', 'character');
   }
 
-  arrowRight() {
+  static arrowRight() {
     window.getSelection().modify('move', 'right', 'character');
   }
 }
