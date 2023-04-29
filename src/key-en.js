@@ -39,7 +39,7 @@ const keyEn = [
     lowercase: '=', uppercase: '=', shift: '+', code: 'Equal',
   },
   {
-    lowercase: 'Backspace', uppercase: false, shift: '', code: 'Backspace',
+    lowercase: 'Backspace', uppercase: 'Backspace', shift: '', code: 'Backspace',
   },
   {
     lowercase: 'Tab', uppercase: false, shift: '', code: 'Tab',
@@ -81,7 +81,7 @@ const keyEn = [
     lowercase: ']', uppercase: ']', shift: '}', code: 'BracketRight',
   },
   {
-    lowercase: '&#92;', uppercase: '&#92;', shift: '|', code: 'Backslash',
+    lowercase: '\\', uppercase: '\\', shift: '|', code: 'Backslash',
   },
   {
     lowercase: 'Del', uppercase: false, shift: '', code: 'Delete',
@@ -120,7 +120,7 @@ const keyEn = [
     lowercase: ';', uppercase: ';', shift: ':', code: 'Semicolon',
   },
   {
-    lowercase: "'", uppercase: "'", shift: '&#8223;', code: 'Quote',
+    lowercase: "'", uppercase: "'", shift: '"', code: 'Quote',
   },
   {
     lowercase: 'Enter', uppercase: false, shift: '', code: 'Enter',
@@ -174,7 +174,7 @@ const keyEn = [
     lowercase: 'Alt', uppercase: false, shift: '', code: 'AltLeft',
   },
   {
-    lowercase: '&nbsp;', uppercase: false, shift: '', code: 'Space',
+    lowercase: ' ', uppercase: false, shift: '', code: 'Space',
   },
   {
     lowercase: 'Alt', uppercase: false, shift: '', code: 'AltRight',
