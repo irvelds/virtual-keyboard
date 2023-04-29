@@ -120,7 +120,7 @@ export default class VirtualKeyboard {
         this.switchShift(e.shiftKey);
       } else if ((e.code === 'ShiftLeft' || e.code === 'ShiftRight' || e.code === 'CapsLock') && e.repeat) {
         monitor.value += '';
-      } else if (['AltLeft', 'ControlRight', 'AltRight', 'ControlLeft'].includes(e.code)) {
+      } else if (['AltLeft', 'ControlRight', 'AltRight', 'ControlLeft', 'MetaLeft'].includes(e.code)) {
         monitor.value += '';
         // return
       } else if (e.code === 'Tab') {
@@ -133,6 +133,14 @@ export default class VirtualKeyboard {
         this.pressBack();
       } else if (e.code === 'Delete') {
         this.pressDel();
+      } else if (e.code === 'ArrowUp') {
+        this.arrowUp();
+      } else if (e.code === 'ArrowDown') {
+        this.arrowDown();
+      } else if (e.code === 'ArrowLeft') {
+        this.arrowLeft();
+      } else if (e.code === 'ArrowRight') {
+        this.arrowRight();
       } else if (e.shiftKey && key.firstChild.getAttribute('data-shift')) {
         this.insertChars(key.firstChild.getAttribute('data-shift'));
       } else this.insertChars(key.firstChild.textContent);
@@ -169,6 +177,14 @@ export default class VirtualKeyboard {
           this.pressBack();
         } else if (key === 'Delete') {
           this.pressDel();
+        } else if (key === 'ArrowUp') {
+          this.arrowUp();
+        } else if (key === 'ArrowDown') {
+          this.arrowDown();
+        } else if (key === 'ArrowLeft') {
+          this.arrowLeft();
+        } else if (key === 'ArrowRight') {
+          this.arrowRight();
         } else if ((key === 'ShiftLeft' || key === 'ShiftRight')) {
           monitor.value += '';
         } else if (this.shift && dataShift) {
@@ -227,5 +243,21 @@ export default class VirtualKeyboard {
       this.monitor.value = ([...this.monitor.value].slice(0, position).concat([...this.monitor.value.slice(position)])).join('');
       this.monitor.setSelectionRange(position, position);
     }
+  }
+
+  arrowUp() {
+    window.getSelection().modify('move', 'left', 'line');
+  }
+
+  arrowDown() {
+    window.getSelection().modify('move', 'right', 'line');
+  }
+
+  arrowLeft() {
+    window.getSelection().modify('move', 'left', 'character');
+  }
+
+  arrowRight() {
+    window.getSelection().modify('move', 'right', 'character');
   }
 }
