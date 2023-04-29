@@ -26,8 +26,13 @@ export default class VirtualKeyboard {
     const monitor = document.createElement('textarea');
     monitor.classList.add('monitor');
     monitor.placeholder = 'You can type anything here...';
+    const description = document.createElement('div');
+    description.innerHTML = `Клавиатура создана в операционной 
+    системе Windows. Для переключения языка используйте левыe <strong>Ctrl + Alt</strong>`;
+    description.classList.add('description');
     document.body.append(monitor);
     document.body.append(keyboard);
+    document.body.append(description);
   }
 
   createKeys() {
