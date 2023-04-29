@@ -5,8 +5,9 @@ export default class VirtualKeyboard {
   constructor() {
     this.capsLock = false;
     this.keyLang = keyRu;
-    this.shift = false;
     this.monitor = null;
+    this.shift = false;
+    this.shiftClick = false;
   }
 
   init() {
@@ -14,6 +15,8 @@ export default class VirtualKeyboard {
     this.setMonitor();
     this.pressKeyBoard();
     this.clickKeyBoard();
+    this.upShift();
+    this.downShift();
   }
 
   createKeyboard() {
@@ -66,12 +69,12 @@ export default class VirtualKeyboard {
     );
   }
 
-  switchShift(shiftKey) {
+  switchShift(eventShift) {
     this.keys.forEach(
       (e) => {
         this.keyLang.forEach((val) => {
           if (val.code === e.getAttribute('data-code')) {
-            this.shift = (this.capsLock && !shiftKey) || (!this.capsLock && shiftKey);
+            this.shift = (this.capsLock && !eventShift) || (!this.capsLock && eventShift);
             const letter = this.shift && val.uppercase !== false ? val.uppercase : val.lowercase;
             e.firstChild.textContent = letter;
             e.firstChild.setAttribute('data-shift', val.shift);
@@ -120,11 +123,8 @@ export default class VirtualKeyboard {
         monitor.value += '';
         this.switchContent();
       } else if ((e.code === 'ShiftLeft' || e.code === 'ShiftRight') && !e.repeat) {
-        monitor.value += '';
         this.switchShift(e.shiftKey);
-      } else if ((e.code === 'ShiftLeft' || e.code === 'ShiftRight' || e.code === 'CapsLock') && e.repeat) {
-        monitor.value += '';
-      } else if (['AltLeft', 'ControlRight', 'AltRight', 'ControlLeft', 'MetaLeft'].includes(e.code)) {
+      } else if (['AltLeft', 'ControlRight', 'AltRight', 'ControlLeft', 'MetaLeft', 'ShiftLeft', 'ShiftRight', 'CapsLock'].includes(e.code)) {
         monitor.value += '';
       } else if (e.code === 'Tab') {
         this.pressTab();
@@ -144,8 +144,12 @@ export default class VirtualKeyboard {
         VirtualKeyboard.arrowLeft();
       } else if (e.code === 'ArrowRight') {
         VirtualKeyboard.arrowRight();
-      } else if (e.shiftKey && key.firstChild.getAttribute('data-shift')) {
+      } else if ((e.shiftKey || this.shiftClick) && key.firstChild.getAttribute('data-shift')) {
         this.insertChars(key.firstChild.getAttribute('data-shift'));
+      } else if ((this.shiftClick && this.capsLock)) {
+        this.insertChars(key.firstChild.textContent.toLowerCase());
+      } else if ((this.shiftClick && !this.capsLock)) {
+        this.insertChars(key.firstChild.textContent.toUpperCase());
       } else this.insertChars(key.firstChild.textContent);
       key.classList.add('active');
     });
@@ -188,9 +192,31 @@ export default class VirtualKeyboard {
           VirtualKeyboard.arrowRight();
         } else if ((key === 'ShiftLeft' || key === 'ShiftRight')) {
           monitor.value += '';
-        } else if (this.shift && dataShift) {
+        } else if ((this.shift && dataShift)) {
           this.insertChars(dataShift);
         } else this.insertChars(e.target.closest('.key').firstChild.textContent);
+      });
+    });
+  }
+
+  downShift() {
+    this.keys.forEach((k) => {
+      k.addEventListener('mousedown', (e) => {
+        if (e.target.innerText === 'Shift') {
+          this.shiftClick = true;
+          this.switchShift(this.shiftClick);
+        }
+      });
+    });
+  }
+
+  upShift() {
+    this.keys.forEach((k) => {
+      k.addEventListener('mouseup', (e) => {
+        if (e.target.innerText === 'Shift') {
+          this.shiftClick = false;
+          this.switchShift(this.shiftClick);
+        }
       });
     });
   }
