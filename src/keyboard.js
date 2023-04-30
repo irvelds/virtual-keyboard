@@ -8,6 +8,7 @@ export default class VirtualKeyboard {
     this.monitor = null;
     this.shift = false;
     this.shiftClick = false;
+    this.ctrlAlt = [];
   }
 
   init() {
@@ -108,20 +109,21 @@ export default class VirtualKeyboard {
       e.preventDefault();
       const key = document.querySelector(`.key[data-code = "${e.code}"]`);
       this.monitor.focus();
-      this.keys.forEach((k) => {
-        if (k.getAttribute('data-code') !== 'CapsLock') k.classList.remove('active');
-      });
       if (!key) {
         return;
       }
-      if ((e.ctrlKey && e.altKey)) {
-        this.keyLang = this.keyLang === keyRu ? keyEn : keyRu;
-        if (this.keyLang === keyRu) {
-          localStorage.setItem('lang', 'Ru');
-        } else {
-          localStorage.setItem('lang', 'En');
+      if ((e.code === 'ControlLeft' || e.code === 'AltLeft') && !e.repeat) {
+        this.ctrlAlt.push(e.code);
+        if (this.ctrlAlt.includes('ControlLeft') && this.ctrlAlt.includes('AltLeft')) {
+          this.keyLang = this.keyLang === keyRu ? keyEn : keyRu;
+          if (this.keyLang === keyRu) {
+            localStorage.setItem('lang', 'Ru');
+          } else {
+            localStorage.setItem('lang', 'En');
+          }
+          this.switchContent();
+          this.ctrlAlt.length = 0;
         }
-        this.switchContent();
       } else if (e.code === 'CapsLock' && !e.repeat) {
         this.capsLock = !this.capsLock;
         key.classList[this.capsLock ? 'add' : 'remove']('active');
