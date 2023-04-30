@@ -20,6 +20,9 @@ export default class VirtualKeyboard {
   }
 
   createKeyboard() {
+    const title = document.createElement('h1');
+    title.classList.add('title');
+    title.innerHTML = 'RSS Виртуальная клавиатура';
     const keyboard = document.createElement('div');
     keyboard.classList.add('keyboard');
     const keyboardKeys = document.createElement('div');
@@ -33,6 +36,7 @@ export default class VirtualKeyboard {
     description.innerHTML = `Клавиатура создана в операционной 
     системе Windows. Для переключения языка используйте левыe <strong>Ctrl + Alt</strong>`;
     description.classList.add('description');
+    document.body.append(title);
     document.body.append(monitor);
     document.body.append(keyboard);
     document.body.append(description);
