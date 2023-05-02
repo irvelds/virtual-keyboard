@@ -185,7 +185,7 @@ export default class VirtualKeyboard {
         } else if (key === 'Tab') {
           this.pressTab();
         } else if (key === 'Enter') {
-          this.pressTab();
+          this.pressEnter();
         } else if (key === 'Space') {
           this.pressSpace();
         } else if (key === 'Backspace') {
@@ -258,7 +258,7 @@ export default class VirtualKeyboard {
   pressDel() {
     if (this.monitor.selectionStart === this.monitor.selectionEnd) {
       const position = this.monitor.selectionStart;
-      this.monitor.value = ([...this.monitor.value].slice(0, position).concat([...this.monitor.value.slice(position, -1)])).join('');
+      this.monitor.value = ([...this.monitor.value].slice(0, position).concat([...this.monitor.value.slice(position + 1)])).join('');
       this.monitor.setSelectionRange(position, position);
     } else {
       const position = this.monitor.selectionStart;
